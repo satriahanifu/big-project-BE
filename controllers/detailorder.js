@@ -1,0 +1,116 @@
+const { DetailOrder } = require("../models");
+
+const uuid = require("uuid");
+const validator = require("fastest-validator");
+const { ValidationError } = require("sequelize/types");
+
+const formValidator = new Validator();
+
+const validationSchema = {
+  orderId: { type: "string" },
+  productId: { type: "string" },
+  price: { type: "currency", currencySymbol: "Rp" },
+  quantitiy: { type: "integer" },
+};
+
+//findAll
+exports.findAll = async (req, res, next) => {
+  try {
+    const data = await DetailOrder.findAll({
+      include: "DetailOrder",
+    });
+
+    if (!data) {
+      throw new Error("Gagal mengambil data detail pemesanan");
+    }
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.findOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await DetailOrder.findByPk(id, {
+      include: "DetailOrder",
+    });
+
+    if (!data) {
+      throw new Error("gagal mengambil data dengan id: " + id);
+    }
+    return res.json(data);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.create = async (req, res, next) => {
+  try {
+    const { orderId, productId, price, quantitiy } = req.body;
+
+    const validation = formValidator.validate(req.body, validationSchema);
+    if (ValidationError.length) {
+      return res.status(400).json({
+        status: false,
+        error: validation,
+      });
+    }
+    const data = await DetailOrder.create({
+      id: uuid.v4(),
+      orderId: orderId,
+      productId: productId,
+      price: price,
+      quantitiy: quantitiy,
+    });
+    if (!data) {
+      throw new Error("gagal menambahkan detail pemesanan");
+    }
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.update = async (req, res, next) => {
+  try {
+    const { orderId, productId, price, quantitiy } = req.body;
+    const { id } = req.params;
+
+    const data = await detailOrder.update(
+      {
+        orderId: orderId,
+        productId: productId,
+        price: price,
+        quantitiy: quantitiy,
+      },
+      { where: { id: id } }
+    );
+    if (!data) {
+      throw new Error("gagal mempebarui data dengan id " + id);
+    }
+    res.json(await await detailOrder);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.delete = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await detailOrder.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!data) {
+      throw new Error("gagal menghapus data dengan id: " + id);
+    }
+    res.json({
+      status: true,
+    });
+  } catch (err) {
+    next(err);
+  }
+};

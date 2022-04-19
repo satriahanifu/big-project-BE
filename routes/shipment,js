@@ -1,0 +1,14 @@
+var express = require("express");
+var router = express.Router();
+
+// const { findAll, findOne, create, update, delete: remove } = require("../controllers/categories");
+const shipmentController = require("../controllers/shipment");
+
+/* GET users listing. */
+router.get("/", shipmentController.findAll);
+router.get("/:id", shipmentController.findOne);
+router.post("/", shipmentController.create);
+router.delete("/:id", shipmentController.delete);
+router.put("/:id", shipmentController.update);
+
+module.exports = router;
