@@ -11,7 +11,7 @@ var paymentRouter = require("./routes/payment");
 var productRouter = require("./routes/product");
 var addressRouter = require("./routes/address");
 var detailOrderRouter = require("./routes/detailorder");
-// var shipmentRouter = require("./routes/shipment");
+var shipmentRouter = require("./routes/shipment");
 var orderRouter = require("./routes/order");
 var app = express();
 
@@ -34,7 +34,7 @@ app.use("/address", addressRouter);
 app.use("/detailorder", detailOrderRouter);
 app.use("/order", orderRouter);
 app.use("/product", productRouter);
-// app.use("/shipment", shipmentRouter);
+app.use("/shipment", shipmentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,4 +1,5 @@
 "use strict";
+const uuid = require("uuid");
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Orders", {

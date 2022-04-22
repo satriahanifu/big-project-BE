@@ -1,8 +1,8 @@
 const { DetailOrder } = require("../models");
 
 const uuid = require("uuid");
-const validator = require("fastest-validator");
-const { ValidationError } = require("sequelize/types");
+// const validator = require("fastest-validator");
+// const { ValidationError } = require("sequelize/types");
 
 // const formValidator = new Validator();
 
@@ -77,7 +77,7 @@ exports.update = async (req, res, next) => {
     const { orderId, productId, price, quantitiy } = req.body;
     const { id } = req.params;
 
-    const data = await detailOrder.update(
+    const data = await DetailOrder.update(
       {
         orderId: orderId,
         productId: productId,
@@ -89,7 +89,7 @@ exports.update = async (req, res, next) => {
     if (!data) {
       throw new Error("gagal mempebarui data dengan id " + id);
     }
-    res.json(await await detailOrder);
+    res.json(await await DetailOrder);
   } catch (err) {
     next(err);
   }
@@ -98,7 +98,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await detailOrder.destroy({
+    const data = await DetailOrder.destroy({
       where: {
         id: id,
       },

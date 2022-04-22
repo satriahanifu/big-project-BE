@@ -5,7 +5,7 @@ const detailOrderController = require("../controllers/detailorder");
 
 router.get("/", detailOrderController.findAll);
 router.get("/:id", detailOrderController.findOne);
-router.post("/", detailOrderControllercreate);
+router.post("/", detailOrderController.create);
 router.delete("/:id", detailOrderController.delete);
 router.put("/:id", detailOrderController.update);
 
