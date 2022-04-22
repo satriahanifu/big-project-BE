@@ -1,4 +1,4 @@
-const { Shipment } = require("../models/shipment");
+const { Shipment } = require("../models");
 const uuid = require("uuid");
 // const Validator = require("fastest-validator");
 // const formValidator = new Validator();
@@ -27,7 +27,7 @@ exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = await Shipment.findByPk(id, {
-      // include: ["Shipment"],
+      include: ["Shipment"],
     });
 
     if (!data) {

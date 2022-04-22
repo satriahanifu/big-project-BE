@@ -70,7 +70,7 @@ exports.create = async (req, res, next) => {
 
     res.json(data);
   } catch (error) {
-    console.log(error, "test");
+    console.log(error);
     next(error);
   }
 };
