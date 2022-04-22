@@ -1,15 +1,17 @@
 const { Shipment } = require("../models");
 
 const uuid = require("uuid");
-const Validator = require("fastest-validator");
-const formValidator = new Validator();
+// const Validator = require("fastest-validator");
+// const formValidator = new Validator();
 
-const validationSchema = { name: { type: "string" } };
+// const validationSchema = { name: { type: "string" } };
 
 // findAll
 exports.findAll = async (req, res, next) => {
   try {
-    const data = await Shipment.findAll();
+    const data = await Shipment.findAll({
+      include: ["Shipment"],
+    });
 
     if (!data) {
       throw new Error("Gagal mengambil data Shipment");
@@ -25,7 +27,9 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await Shipment.findByPk(id);
+    const data = await Shipment.findByPk(id, {
+      include: ["Shipment"],
+    });
 
     if (!data) {
       throw new Error("Gagal mengambil data dengan id " + id);
@@ -41,13 +45,13 @@ exports.create = async (req, res, next) => {
   try {
     const { name } = req.body;
 
-    const validation = formValidator.validate(req.body, validationSchema);
-    if (validation.length) {
-      return res.status(400).json({
-        status: false,
-        error: validation,
-      });
-    }
+    // const validation = formValidator.validate(req.body, validationSchema);
+    // if (validation.length) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     error: validation,
+    //   });
+    // }
 
     const data = await Shipment.create({
       id: uuid.v4(),

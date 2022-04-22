@@ -9,22 +9,10 @@ module.exports = {
         default: Sequelize.UUIDV4,
       },
       orderId: {
-        type: Sequelize.UUID,
-        references: {
-          model: {
-            tableName: "Orders",
-          },
-          key: "id",
-        },
+        type: Sequelize.STRING,
       },
       productId: {
-        type: Sequelize.UUID,
-        references: {
-          model: {
-            tableName: "Products",
-          },
-          key: "id",
-        },
+        type: Sequelize.STRING,
       },
       price: {
         type: Sequelize.DOUBLE,

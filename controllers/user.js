@@ -2,13 +2,13 @@ const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const Validator = require("fastest-validator");
-const formValidator = new Validator();
+// const formValidator = new Validator();
 
 const validationSchema = {
   username: { type: "string" },
   password: { type: "string", min: 6 },
   fullname: { type: "string" },
-  email: { type: "email" },
+  email: { type: "string" },
   role: { type: "enum" },
 };
 
@@ -47,13 +47,13 @@ exports.create = async (req, res, next) => {
   try {
     const { username, password, fullname, email, role = "customer" } = req.body;
 
-    const validation = formValidator.validate(req.body, validationSchema);
-    if (validation.length) {
-      return res.status(400).json({
-        status: false,
-        error: validation,
-      });
-    }
+    // const validation = formValidator.validate(req.body, validationSchema);
+    // if (validation.length) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     error: validation,
+    //   });
+    // }
 
     const data = await User.create({
       id: uuid.v4(),
@@ -70,6 +70,7 @@ exports.create = async (req, res, next) => {
 
     res.json(data);
   } catch (error) {
+    console.log(error, "test");
     next(error);
   }
 };

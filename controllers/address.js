@@ -2,7 +2,7 @@ const { Address } = require("../models");
 
 const uuid = require("uuid");
 const Validator = require("fastest-validator");
-const formValidator = new Validator();
+// const formValidator = new Validator();
 
 const validationSchema = {
   title: { type: "string" },
@@ -13,9 +13,7 @@ const validationSchema = {
 
 exports.findAll = async (req, res, next) => {
   try {
-    const data = await address.findAll({
-      include: "address",
-    });
+    const data = await Address.findAll({});
 
     if (!data) {
       throw new Error("gagal mengambil data alamat");
@@ -29,9 +27,7 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await address.findByPk(id, {
-      include: "address",
-    });
+    const data = await Address.findByPk(id, {});
 
     if (!data) {
       throw new Error("gagal mengambil id " + id);
@@ -46,15 +42,15 @@ exports.create = async (req, res, next) => {
   try {
     const { title, address, primary, userId } = req.body;
 
-    const Validaiton = fromValidator.validate(req.body, validationSchema);
-    if (validationSchema.length) {
-      return res.status(400).json({
-        status: false,
-        error: validation,
-      });
-    }
+    // const Validaiton = fromValidator.validate(req.body, validationSchema);
+    // if (validationSchema.length) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     error: validation,
+    //   });
+    // }
 
-    const data = await address.create({
+    const data = await Address.create({
       id: uuid.v4(),
       title: title,
       address: address,
@@ -73,15 +69,14 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const { title, address, primary, userId } = req.body;
+    const { title, address, primary } = req.body;
     const { id } = req.params;
 
-    const data = await detailOrder(
+    const data = await Address(
       {
         title: title,
         address: address,
         primary: primary,
-        userId: userId,
       },
       { where: { id: id } }
     );
@@ -89,7 +84,7 @@ exports.update = async (req, res, next) => {
     if (!data) {
       throw new Error("gagal memperbarui data dengan id" + id);
     }
-    res.json(await address.findByPk(id));
+    res.json(await Address.findByPk(id));
   } catch (err) {
     next(err);
   }
@@ -99,7 +94,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await Products.destroy({
+    const data = await Address.destroy({
       where: {
         id: id,
       },

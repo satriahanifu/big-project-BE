@@ -1,22 +1,22 @@
-const { order } = require("../models");
+const { Order } = require("../models");
 
 const uuid = require("uuid");
 const Validator = require("fastest-validator");
-const formValidator = new Validator();
+// const formValidator = new Validator();
 
 const validationSchema = {
-  userid: { type: { string } },
-  paymentid: { type: { string } },
-  shipmentid: { type: { string } },
-  status: { type: { boolean } },
-  buktiBayar: { type: { string } },
+  userid: { type: "string" },
+  paymentid: { type: "string" },
+  shipmentid: { type: "string" },
+  status: { type: "boolean" },
+  buktiBayar: { type: "string" },
 };
 
 // findAll
 exports.findAll = async (req, res, next) => {
   try {
-    const data = await order.findAll({
-      include: "order",
+    const data = await Order.findAll({
+      // include: "order",
     });
 
     if (!data) {
@@ -33,7 +33,7 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await order.findByPk(id, {
+    const data = await Order.findByPk(id, {
       include: "order",
     });
 
@@ -49,20 +49,20 @@ exports.findOne = async (req, res, next) => {
 // create
 exports.create = async (req, res, next) => {
   try {
-    const { userid, pamynetid, shipmentid, status, buktibayar } = req.body;
+    const { userid, paymentid, shipmentid, status, buktibayar } = req.body;
 
-    const validation = formValidator.validate(req.body, validationSchema);
-    if (validation.length) {
-      return res.status(400).json({
-        status: false,
-        error: validation,
-      });
-    }
+    // const validation = formValidator.validate(req.body, validationSchema);
+    // if (validation.length) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     error: validation,
+    //   });
+    // }
 
-    const data = await order.create({
+    const data = await Order.create({
       id: uuid.v4(),
       userid,
-      pamynetid,
+      paymentid,
       shipmentid,
       status,
       buktibayar,
@@ -80,13 +80,13 @@ exports.create = async (req, res, next) => {
 // update
 exports.update = async (req, res, next) => {
   try {
-    const { userid, pamynetid, shipmentid, status, buktibayar } = req.body;
+    const { userid, paymentid, shipmentid, status, buktibayar } = req.body;
     const { id } = req.params;
 
-    const data = await order.update(
+    const data = await Order.update(
       {
         userid,
-        pamynetid,
+        paymentid,
         shipmentid,
         status,
         buktibayar,
@@ -100,7 +100,7 @@ exports.update = async (req, res, next) => {
       throw new Error("Gagal melakukan update data dengan id " + id);
     }
 
-    res.json(await Products.findByPk(id));
+    res.json(await Order.findByPk(id));
   } catch (error) {
     next(error);
   }
@@ -110,7 +110,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await order.destroy({
+    const data = await Order.destroy({
       where: {
         id: id,
       },

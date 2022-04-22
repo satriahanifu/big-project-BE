@@ -13,8 +13,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init(
     {
+      userId: DataTypes.STRING,
+      paymentId: DataTypes.STRING,
+      shipmentId: DataTypes.STRING,
+      status: DataTypes.ENUM("lunas", "belum lunas"),
       buktiBayar: DataTypes.STRING,
-      status: DataTypes.ENUM("paid", "unpaid"),
+      createdAt: DataTypes.DATE,
     },
     {
       sequelize,

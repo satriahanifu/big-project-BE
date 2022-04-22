@@ -4,14 +4,14 @@ const uuid = require("uuid");
 const validator = require("fastest-validator");
 const { ValidationError } = require("sequelize/types");
 
-const formValidator = new Validator();
+// const formValidator = new Validator();
 
-const validationSchema = {
-  orderId: { type: "string" },
-  productId: { type: "string" },
-  price: { type: "currency", currencySymbol: "Rp" },
-  quantitiy: { type: "integer" },
-};
+// const validationSchema = {
+//   orderId: { type: "string" },
+//   productId: { type: "string" },
+//   price: { type: "currency", currencySymbol: "Rp" },
+//   quantitiy: { type: "integer" },
+// };
 
 //findAll
 exports.findAll = async (req, res, next) => {

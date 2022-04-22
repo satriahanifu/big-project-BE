@@ -8,7 +8,7 @@ module.exports = {
         type: Sequelize.UUID,
         default: Sequelize.UUIDV4,
       },
-      userid: {
+      userId: {
         type: Sequelize.UUID,
         references: {
           model: {
@@ -17,7 +17,7 @@ module.exports = {
           key: "id",
         },
       },
-      paymentid: {
+      paymentId: {
         type: Sequelize.UUID,
         references: {
           model: {
@@ -26,7 +26,7 @@ module.exports = {
           key: "id",
         },
       },
-      shipmentid: {
+      shipmentId: {
         type: Sequelize.UUID,
         references: {
           model: {
@@ -36,10 +36,14 @@ module.exports = {
         },
       },
       status: {
-        type: Sequelize.ENUM("paid", "unpaid"),
+        type: Sequelize.ENUM("lunas", "belum lunas"),
+        default: "belum lunas",
       },
       buktiBayar: {
         type: Sequelize.STRING,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,

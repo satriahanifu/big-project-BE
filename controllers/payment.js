@@ -1,4 +1,4 @@
-const { payment } = require("../models");
+const { Payment } = require("../models");
 
 const uuid = require("uuid");
 const Validator = require("fastest-validator");
@@ -13,7 +13,7 @@ const validationSchema = {
 // findAll
 exports.findAll = async (req, res, next) => {
   try {
-    const data = await payment.findAll();
+    const data = await Payment.findAll();
 
     if (!data) {
       throw new Error("Gagal mengambil data payment");
@@ -29,7 +29,7 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await payment.findByPk(id);
+    const data = await Payment.findByPk(id);
 
     if (!data) {
       throw new Error("Gagal mengambil data dengan id " + id);
@@ -53,7 +53,7 @@ exports.create = async (req, res, next) => {
       });
     }
 
-    const data = await payment.create({
+    const data = await Payment.create({
       id: uuid.v4(),
       bankName: bankName,
       accountName: accountName,
@@ -75,7 +75,7 @@ exports.update = async (req, res, next) => {
     const { bankName, accountName, accountNumber } = req.body;
     const { id } = req.params;
 
-    const data = await payment.update(
+    const data = await Payment.update(
       {
         bankName: bankName,
         accountName: accountName,
@@ -90,7 +90,7 @@ exports.update = async (req, res, next) => {
       throw new Error("Gagal melakukan update data dengan id " + id);
     }
 
-    res.json(await payment.findByPk(id));
+    res.json(await Payment.findByPk(id));
   } catch (error) {
     next(error);
   }
@@ -100,7 +100,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await payment.destroy({
+    const data = await Payment.destroy({
       where: {
         id: id,
       },
