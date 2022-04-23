@@ -27,7 +27,7 @@ exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = await Shipment.findByPk(id, {
-      include: ["Shipment"],
+      where: "name", //tadinya include
     });
 
     if (!data) {

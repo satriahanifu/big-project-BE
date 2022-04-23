@@ -72,7 +72,7 @@ exports.update = async (req, res, next) => {
     const { title, address, primary } = req.body;
     const { id } = req.params;
 
-    const data = await Address(
+    const data = await Address.update(
       {
         title: title,
         address: address,

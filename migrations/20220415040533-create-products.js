@@ -29,7 +29,7 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
-      categoryid: {
+      categoryId: {
         type: Sequelize.UUID,
         references: {
           model: {

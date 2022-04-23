@@ -11,7 +11,7 @@ const validationSchema = {
   stock: { type: "number" },
   size: { type: "string" },
   image: { type: "string" },
-  categoryid: { type: "string" },
+  categoryId: { type: "string" },
 };
 
 // findAll
@@ -51,7 +51,7 @@ exports.findOne = async (req, res, next) => {
 // create
 exports.create = async (req, res, next) => {
   try {
-    const { name, description, price, stock, size, image, categoryid } = req.body;
+    const { name, description, price, stock, size, image, categoryId } = req.body;
 
     const validation = formValidator.validate(req.body, validationSchema);
     if (validation.length) {
@@ -64,12 +64,12 @@ exports.create = async (req, res, next) => {
     const data = await Products.create({
       id: uuid.v4(),
       name: name,
-      description,
-      price,
-      stock,
-      size,
-      image,
-      categoryid,
+      description: description,
+      price: price,
+      stock: stock,
+      size: size,
+      image: image,
+      categoryId: categoryId,
     });
 
     if (!data) {
@@ -84,7 +84,7 @@ exports.create = async (req, res, next) => {
 // update
 exports.update = async (req, res, next) => {
   try {
-    const { name, description, price, stock, size, image, categoryid } = req.body;
+    const { name, description, price, stock, size, image, categoryId } = req.body;
     const { id } = req.params;
 
     const data = await Products.update(
@@ -95,7 +95,7 @@ exports.update = async (req, res, next) => {
         stock,
         size,
         image,
-        categoryid,
+        categoryId,
       },
       {
         where: { id: id },

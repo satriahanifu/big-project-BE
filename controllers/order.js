@@ -1,16 +1,16 @@
 const { Order } = require("../models");
 
 const uuid = require("uuid");
-const Validator = require("fastest-validator");
+// const Validator = require("fastest-validator");
 // const formValidator = new Validator();
 
-const validationSchema = {
-  userid: { type: "string" },
-  paymentid: { type: "string" },
-  shipmentid: { type: "string" },
-  status: { type: "boolean" },
-  buktiBayar: { type: "string" },
-};
+// const validationSchema = {
+//   userid: { type: "string" },
+//   paymentid: { type: "string" },
+//   shipmentid: { type: "string" },
+//   status: { type: "boolean" },
+//   buktiBayar: { type: "string" },
+// };
 
 // findAll
 exports.findAll = async (req, res, next) => {
@@ -34,7 +34,7 @@ exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = await Order.findByPk(id, {
-      include: "order",
+      // include: "order",
     });
 
     if (!data) {
@@ -49,7 +49,7 @@ exports.findOne = async (req, res, next) => {
 // create
 exports.create = async (req, res, next) => {
   try {
-    const { userid, paymentid, shipmentid, status, buktibayar } = req.body;
+    const { userId, paymentId, shipmentId, status, buktiBayar } = req.body;
 
     // const validation = formValidator.validate(req.body, validationSchema);
     // if (validation.length) {
@@ -61,11 +61,11 @@ exports.create = async (req, res, next) => {
 
     const data = await Order.create({
       id: uuid.v4(),
-      userid,
-      paymentid,
-      shipmentid,
-      status,
-      buktibayar,
+      userId: userId,
+      paymentId: paymentId,
+      shipmentId: shipmentId,
+      status: status,
+      buktiBayar: buktiBayar,
     });
 
     if (!data) {
@@ -80,16 +80,16 @@ exports.create = async (req, res, next) => {
 // update
 exports.update = async (req, res, next) => {
   try {
-    const { userid, paymentid, shipmentid, status, buktibayar } = req.body;
+    const { userId, paymentId, shipmentId, status, buktiBayar } = req.body;
     const { id } = req.params;
 
     const data = await Order.update(
       {
-        userid,
-        paymentid,
-        shipmentid,
-        status,
-        buktibayar,
+        userId: userId,
+        paymentId: paymentId,
+        shipmentid: shipmentId,
+        status: status,
+        buktiBayar: buktiBayar,
       },
       {
         where: { id: id },

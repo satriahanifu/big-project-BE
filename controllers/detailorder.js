@@ -10,14 +10,14 @@ const uuid = require("uuid");
 //   orderId: { type: "string" },
 //   productId: { type: "string" },
 //   price: { type: "currency", currencySymbol: "Rp" },
-//   quantitiy: { type: "integer" },
+//   quantity: { type: "integer" },
 // };
 
 //findAll
 exports.findAll = async (req, res, next) => {
   try {
     const data = await DetailOrder.findAll({
-      include: "DetailOrder",
+      // include: "DetailOrder",
     });
 
     if (!data) {
@@ -33,7 +33,7 @@ exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = await DetailOrder.findByPk(id, {
-      include: "DetailOrder",
+      // include: "DetailOrder",
     });
 
     if (!data) {
@@ -47,21 +47,21 @@ exports.findOne = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   try {
-    const { orderId, productId, price, quantitiy } = req.body;
+    const { orderId, productId, price, quantity } = req.body;
 
-    const validation = formValidator.validate(req.body, validationSchema);
-    if (ValidationError.length) {
-      return res.status(400).json({
-        status: false,
-        error: validation,
-      });
-    }
+    // const validation = formValidator.validate(req.body, validationSchema);
+    // if (ValidationError.length) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     error: validation,
+    //   });
+    // }
     const data = await DetailOrder.create({
       id: uuid.v4(),
       orderId: orderId,
       productId: productId,
       price: price,
-      quantitiy: quantitiy,
+      quantity: quantity,
     });
     if (!data) {
       throw new Error("gagal menambahkan detail pemesanan");
@@ -74,7 +74,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const { orderId, productId, price, quantitiy } = req.body;
+    const { orderId, productId, price, quantity } = req.body;
     const { id } = req.params;
 
     const data = await DetailOrder.update(
@@ -82,14 +82,14 @@ exports.update = async (req, res, next) => {
         orderId: orderId,
         productId: productId,
         price: price,
-        quantitiy: quantitiy,
+        quantity: quantity,
       },
       { where: { id: id } }
     );
     if (!data) {
       throw new Error("gagal mempebarui data dengan id " + id);
     }
-    res.json(await await DetailOrder);
+    res.json(await DetailOrder.findByPk(id));
   } catch (err) {
     next(err);
   }
