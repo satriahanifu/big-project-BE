@@ -3,7 +3,6 @@ const { Categories } = require("../models");
 const uuid = require("uuid");
 const Validator = require("fastest-validator");
 const formValidator = new Validator();
-
 const validationSchema = { name: { type: "string" } };
 
 // findAll

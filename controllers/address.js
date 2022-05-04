@@ -2,7 +2,7 @@ const { Address } = require("../models");
 
 const uuid = require("uuid");
 const Validator = require("fastest-validator");
-// const formValidator = new Validator();
+const formValidator = new Validator();
 
 const validationSchema = {
   title: { type: "string" },
@@ -27,7 +27,9 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await Address.findByPk(id, {});
+    const data = await Address.findByPk(id, {
+      include: "address",
+    });
 
     if (!data) {
       throw new Error("gagal mengambil id " + id);
@@ -42,13 +44,13 @@ exports.create = async (req, res, next) => {
   try {
     const { title, address, primary, userId } = req.body;
 
-    // const Validaiton = fromValidator.validate(req.body, validationSchema);
-    // if (validationSchema.length) {
-    //   return res.status(400).json({
-    //     status: false,
-    //     error: validation,
-    //   });
-    // }
+    const Validation = formValidator.validate(req.body, validationSchema);
+    if (validationSchema.length) {
+      return res.status(400).json({
+        status: false,
+        error: Validation,
+      });
+    }
 
     const data = await Address.create({
       id: uuid.v4(),

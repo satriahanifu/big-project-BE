@@ -1,23 +1,21 @@
 const { Order } = require("../models");
 
 const uuid = require("uuid");
-// const Validator = require("fastest-validator");
-// const formValidator = new Validator();
+const Validator = require("fastest-validator");
+const formValidator = new Validator();
 
-// const validationSchema = {
-//   userid: { type: "string" },
-//   paymentid: { type: "string" },
-//   shipmentid: { type: "string" },
-//   status: { type: "boolean" },
-//   buktiBayar: { type: "string" },
-// };
+const validationSchema = {
+  userId: { type: "string" },
+  paymentId: { type: "string" },
+  shipmentId: { type: "string" },
+  status: { type: "boolean" },
+  buktiBayar: { type: "string" },
+};
 
 // findAll
 exports.findAll = async (req, res, next) => {
   try {
-    const data = await Order.findAll({
-      // include: "order",
-    });
+    const data = await Order.findAll();
 
     if (!data) {
       throw new Error("Gagal mengambil data Products");
@@ -34,7 +32,7 @@ exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = await Order.findByPk(id, {
-      // include: "order",
+      include: "Order",
     });
 
     if (!data) {
@@ -51,13 +49,13 @@ exports.create = async (req, res, next) => {
   try {
     const { userId, paymentId, shipmentId, status, buktiBayar } = req.body;
 
-    // const validation = formValidator.validate(req.body, validationSchema);
-    // if (validation.length) {
-    //   return res.status(400).json({
-    //     status: false,
-    //     error: validation,
-    //   });
-    // }
+    const validation = formValidator.validate(req.body, validationSchema);
+    if (validation.length) {
+      return res.status(400).json({
+        status: false,
+        error: validation,
+      });
+    }
 
     const data = await Order.create({
       id: uuid.v4(),

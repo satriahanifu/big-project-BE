@@ -8,7 +8,7 @@ exports.register = async (req, res, next) => {
     const { username, password } = req.body;
 
     const existCheck = await User.findone({
-      where: { username },
+      where: { username }, //kenapa ada yg pakai obj dan ada yg pakai array?
     });
 
     if (!existCheck) {
@@ -36,7 +36,7 @@ exports.login = async (req, res, next) => {
     const { username, password } = req.body;
 
     const existCheck = await User.findOne({
-      where: username,
+      where: { username },
     });
 
     if (!existCheck) {
@@ -49,10 +49,21 @@ exports.login = async (req, res, next) => {
       throw new Error("error!, password salah");
     }
 
+    const accessToken = jwt.sign(
+      {
+        user: existCheck,
+      },
+      JWT_SECREET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
     return res.status(201).json({
       status: true,
       data: {
         token: accessToken,
+        user: existCheck,
       },
     });
   } catch (err) {

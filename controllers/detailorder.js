@@ -1,24 +1,22 @@
 const { DetailOrder } = require("../models");
 
 const uuid = require("uuid");
-// const validator = require("fastest-validator");
-// const { ValidationError } = require("sequelize/types");
+const Validator = require("fastest-validator");
+const { ValidationError } = require("sequelize");
 
-// const formValidator = new Validator();
+const formValidator = new Validator();
 
-// const validationSchema = {
-//   orderId: { type: "string" },
-//   productId: { type: "string" },
-//   price: { type: "currency", currencySymbol: "Rp" },
-//   quantity: { type: "integer" },
-// };
+const validationSchema = {
+  orderId: { type: "string" },
+  productId: { type: "string" },
+  price: { type: "currency", currencySymbol: "Rp" },
+  quantity: { type: "integer" },
+};
 
 //findAll
 exports.findAll = async (req, res, next) => {
   try {
-    const data = await DetailOrder.findAll({
-      // include: "DetailOrder",
-    });
+    const data = await DetailOrder.findAll();
 
     if (!data) {
       throw new Error("Gagal mengambil data detail pemesanan");
@@ -33,7 +31,7 @@ exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = await DetailOrder.findByPk(id, {
-      // include: "DetailOrder",
+      include: "DetailOrder",
     });
 
     if (!data) {
@@ -49,13 +47,13 @@ exports.create = async (req, res, next) => {
   try {
     const { orderId, productId, price, quantity } = req.body;
 
-    // const validation = formValidator.validate(req.body, validationSchema);
-    // if (ValidationError.length) {
-    //   return res.status(400).json({
-    //     status: false,
-    //     error: validation,
-    //   });
-    // }
+    const validation = formValidator.validate(req.body, validationSchema);
+    if (ValidationError.length) {
+      return res.status(400).json({
+        status: false,
+        error: validation,
+      });
+    }
     const data = await DetailOrder.create({
       id: uuid.v4(),
       orderId: orderId,
