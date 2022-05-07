@@ -47,7 +47,7 @@ exports.create = async (req, res, next) => {
   try {
     const { username, password, fullname, email, role = "customer" } = req.body;
 
-    const validation = formValidator.validate(req.body, validationSchema);
+    const validation = formValidator.compile(validationSchema);
     if (validation.length) {
       return res.status(400).json({
         status: false,
