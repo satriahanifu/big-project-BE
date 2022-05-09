@@ -1,3 +1,5 @@
+require("dotnev").config();
+const { JWT_SECRET } = process.env;
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/user");
 const uuid = require("uuid");
@@ -7,7 +9,7 @@ exports.register = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const existCheck = await User.findone({
+    const existCheck = await User.findOne({
       where: { username }, //kenapa ada yg pakai obj dan ada yg pakai array?
     });
 
