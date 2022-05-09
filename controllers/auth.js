@@ -1,7 +1,7 @@
-require("dotnev").config();
-const { JWT_SECRET } = process.env;
+require("dotenv").config();
+const { JWT_SECREET } = process.env;
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/user");
+const { User } = require("../models");
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 
@@ -10,11 +10,12 @@ exports.register = async (req, res, next) => {
     const { username, password } = req.body;
 
     const existCheck = await User.findOne({
-      where: { username }, //kenapa ada yg pakai obj dan ada yg pakai array?
+      //findOne tidak jalan
+      where: { username },
     });
 
-    if (!existCheck) {
-      throw new Error(`USer ${username} sudah digunakan`);
+    if (existCheck) {
+      throw new Error(`user ${username} sudah terdaftar`);
     }
 
     const data = await User.create({
@@ -38,6 +39,7 @@ exports.login = async (req, res, next) => {
     const { username, password } = req.body;
 
     const existCheck = await User.findOne({
+      //findOne tidak jalan
       where: { username },
     });
 
